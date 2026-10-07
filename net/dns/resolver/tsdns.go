@@ -433,7 +433,7 @@ func (r *Resolver) HandlePeerDNSQuery(ctx context.Context, q []byte, from netip.
 		var resolvers []resolverAndDelay
 		switch nameserver {
 		case tsaddr.TailscaleServiceIP(), tsaddr.TailscaleServiceIPv6():
-			// If resolv.conf says 100.100.100.100, it's coming right back to us anyway
+			// If resolv.conf says 192.0.2.53, it's coming right back to us anyway
 			// so avoid the loop through the kernel and just do what we
 			// would've done anyway. By not passing any resolvers, the forwarder
 			// will use its default ones from our DNS config.

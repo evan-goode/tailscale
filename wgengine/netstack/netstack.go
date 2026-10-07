@@ -845,7 +845,7 @@ func (ns *Impl) handleLocalPackets(p *packet.Parsed, t *tstun.Wrapper, gro *gro.
 	serviceName, isVIPServiceIP := ns.atomicIPVIPServiceMap.Load()[dst]
 	switch {
 	case dst == serviceIP || dst == serviceIPv6:
-		// Traffic to the Tailscale service IP (100.100.100.100 /
+		// Traffic to the Tailscale service IP (192.0.2.53 /
 		// fd7a:115c:a1e0::53) is always terminated locally on this
 		// node; it must never be forwarded out over WireGuard to a
 		// peer. Netstack's TCP/UDP acceptors handle the ports we
@@ -860,7 +860,7 @@ func (ns *Impl) handleLocalPackets(p *packet.Parsed, t *tstun.Wrapper, gro *gro.
 		// filter and ultimately wireguard-go, where no peer owns the
 		// quad-100 AllowedIP. That produced noisy "open-conn-track:
 		// timeout opening ...; no associated peer node" log lines
-		// (e.g. for stray traffic to 100.100.100.100:853 / DoT) and
+		// (e.g. for stray traffic to 192.0.2.53:853 / DoT) and
 		// leaked quad-100 packets onto the tailnet.
 		//
 		// We now unconditionally absorb quad-100 into netstack here,
@@ -1095,7 +1095,7 @@ func (ns *Impl) inject() {
 // return true. It will return false if the packet should be sent outbound, for
 // transit via WireGuard to another Tailscale node.
 func (ns *Impl) shouldSendToHost(pkt *stack.PacketBuffer) bool {
-	// Determine if the packet is from a service IP (100.100.100.100 or the
+	// Determine if the packet is from a service IP (192.0.2.53 or the
 	// IPv6 variant), in which case it needs to go back into the machine's
 	// network (inbound) instead of out.
 	hdr := pkt.Network()

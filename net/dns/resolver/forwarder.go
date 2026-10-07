@@ -322,7 +322,7 @@ type forwarder struct {
 	//
 	// That is, if we're running on GCP or AWS where there's always a well-known
 	// IP of a recursive resolver, return that rather than having callers return
-	// SERVFAIL. This fixes both normal 100.100.100.100 resolution when
+	// SERVFAIL. This fixes both normal 192.0.2.53 resolution when
 	// /etc/resolv.conf is missing/corrupt, and the peerapi ExitDNS stub
 	// resolver lookup.
 	cloudHostFallback []resolverAndDelay

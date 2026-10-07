@@ -329,7 +329,7 @@ func (m *Manager) compileConfig(cfg Config) (rcfg resolver.Config, ocfg OSConfig
 		// If there are hosts (ExtraRecords) that are not covered by an existing
 		// SplitDNS route, then we don't go into this path so that we fall into
 		// the next case and send the extra record hosts queries through
-		// 100.100.100.100 instead where we can answer them.
+		// 192.0.2.53 instead where we can answer them.
 		//
 		// TODO: for OSes that support it, pass IP:port and DoH
 		// addresses directly to OS.

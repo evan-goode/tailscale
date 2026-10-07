@@ -2455,7 +2455,7 @@ func TestTUNDNS(t *testing.T) {
 	}
 
 	t.Run("IPv4", func(t *testing.T) {
-		test(t, tt.s2ip4, netip.MustParseAddr("100.100.100.100"))
+		test(t, tt.s2ip4, netip.MustParseAddr("192.0.2.53"))
 	})
 	t.Run("IPv6", func(t *testing.T) {
 		test(t, tt.s2ip6, netip.MustParseAddr("fd7a:115c:a1e0::53"))
@@ -2859,7 +2859,7 @@ func TestDialUDP(t *testing.T) {
 }
 
 // buildDNSQuery builds a UDP/IP packet containing a DNS query for name to the
-// Tailscale service IP (100.100.100.100 for IPv4, fd7a:115c:a1e0::53 for IPv6).
+// Tailscale service IP (192.0.2.53 for IPv4, fd7a:115c:a1e0::53 for IPv6).
 func buildDNSQuery(name string, srcIP netip.Addr) []byte {
 	qtype := byte(0x01) // Type A for IPv4
 	if srcIP.Is6() {
@@ -2881,7 +2881,7 @@ func buildDNSQuery(name string, srcIP netip.Addr) []byte {
 		h := packet.UDP4Header{
 			IP4Header: packet.IP4Header{
 				Src: srcIP,
-				Dst: netip.MustParseAddr("100.100.100.100"),
+				Dst: netip.MustParseAddr("192.0.2.53"),
 			},
 			SrcPort: 12345,
 			DstPort: 53,

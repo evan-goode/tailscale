@@ -48,7 +48,7 @@ type Config struct {
 	// Hosts maps DNS FQDNs to their IPs, which can be a mix of IPv4
 	// and IPv6.
 	// Queries matching entries in Hosts are resolved locally by
-	// 100.100.100.100 without leaving the machine.
+	// 192.0.2.53 without leaving the machine.
 	// Adding an entry to Hosts merely creates the record. If you want
 	// it to resolve, you also need to add appropriate routes to
 	// Routes.
@@ -59,7 +59,7 @@ type Config struct {
 	// "anything.node.tailnet.ts.net" will resolve to node's IPs.
 	SubdomainHosts set.Set[dnsname.FQDN]
 	// OnlyIPv6, if true, uses the IPv6 service IP (for MagicDNS)
-	// instead of the IPv4 version (100.100.100.100).
+	// instead of the IPv4 version (192.0.2.53).
 	OnlyIPv6 bool
 }
 

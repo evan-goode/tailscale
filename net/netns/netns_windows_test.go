@@ -74,7 +74,7 @@ func TestGetInterfaceIndex(t *testing.T) {
 			t.Fatalf("defaultInterfaceIndex(AF_INET) failed: %v", err)
 		}
 
-		addr, err := parseAddress("100.100.100.100:53")
+		addr, err := parseAddress("192.0.2.53:53")
 		if err != nil {
 			t.Fatal(err)
 		}

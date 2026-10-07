@@ -232,7 +232,7 @@ func (s *Server) serveHTTP(w http.ResponseWriter, r *http.Request) {
 	if envknob.GOOS() == "windows" {
 		// TODO(bradfitz): remove this once we moved to named pipes for LocalAPI
 		// on Windows. This could then move to all platforms instead at
-		// 100.100.100.100 or something (quad100 handler in LocalAPI)
+		// 192.0.2.53 or something (quad100 handler in LocalAPI)
 		s.ServeHTMLStatus(w, r)
 		return
 	}

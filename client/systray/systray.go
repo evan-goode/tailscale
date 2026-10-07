@@ -327,7 +327,7 @@ func (menu *Menu) rebuild() {
 	if menu.status != nil && menu.status.BackendState == "Running" {
 		// web client is only available if backend is running
 		onClick(ctx, menu.more, func(_ context.Context) {
-			webbrowser.Open("http://100.100.100.100/")
+			webbrowser.Open("http://192.0.2.53/")
 		})
 	} else {
 		menu.more.Disable()

@@ -6297,7 +6297,7 @@ func (b *LocalBackend) ShouldRunWebClient() bool { return b.webClientAtomicBool.
 
 // ShouldExposeRemoteWebClient reports whether the web client should
 // accept connections via [tailscale IP]:5252 in addition to the default
-// behaviour of accepting local connections over 100.100.100.100.
+// behaviour of accepting local connections over 192.0.2.53.
 //
 // This function checks both the web client user pref via
 // exposeRemoteWebClientAtomicBool and the disable-web-client node attr
@@ -7341,7 +7341,7 @@ func (b *LocalBackend) handleSSHConn(c net.Conn) (err error) {
 	return s.HandleSSHConn(c)
 }
 
-// HandleQuad100Port80Conn serves http://100.100.100.100/ on port 80 (and
+// HandleQuad100Port80Conn serves http://192.0.2.53/ on port 80 (and
 // the equivalent tsaddr.TailscaleServiceIPv6 address).
 func (b *LocalBackend) HandleQuad100Port80Conn(c net.Conn) error {
 	var s http.Server

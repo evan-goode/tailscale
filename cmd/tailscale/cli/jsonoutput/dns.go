@@ -65,7 +65,7 @@ type DNSStatusResult struct {
 
 	// SplitDNSRoutes maps domain suffixes to dedicated resolvers.
 	// An empty resolver slice means the suffix is handled by
-	// Tailscale's built-in resolver (100.100.100.100).
+	// Tailscale's built-in resolver (192.0.2.53).
 	SplitDNSRoutes map[string][]DNSResolverInfo `json:",omitzero"`
 
 	// FallbackResolvers are like Resolvers but only used when
@@ -106,7 +106,7 @@ type DNSAnswer struct {
 }
 
 // DNSQueryResult is the result of a DNS query via the Tailscale
-// internal forwarder (100.100.100.100).
+// internal forwarder (192.0.2.53).
 type DNSQueryResult struct {
 	Name         string
 	QueryType    string            // e.g. "A", "AAAA"

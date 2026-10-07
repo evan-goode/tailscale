@@ -49,23 +49,23 @@ func TestSetDNS(t *testing.T) {
 		{
 			name: "basic",
 			cfg: OSConfig{
-				Nameservers:  []netip.Addr{netip.MustParseAddr("100.100.100.100")},
+				Nameservers:  []netip.Addr{netip.MustParseAddr("192.0.2.53")},
 				MatchDomains: []dnsname.FQDN{"example.com.", "ts.net."},
 			},
 			fileContents: map[string]string{
-				"example.com": macResolverFileHeader + "nameserver 100.100.100.100\n",
-				"ts.net":      macResolverFileHeader + "nameserver 100.100.100.100\n",
+				"example.com": macResolverFileHeader + "nameserver 192.0.2.53\n",
+				"ts.net":      macResolverFileHeader + "nameserver 192.0.2.53\n",
 			},
 		},
 		{
 			name: "SearchDomains",
 			cfg: OSConfig{
-				Nameservers:   []netip.Addr{netip.MustParseAddr("100.100.100.100")},
+				Nameservers:   []netip.Addr{netip.MustParseAddr("192.0.2.53")},
 				SearchDomains: []dnsname.FQDN{"tail1234.ts.net."},
 				MatchDomains:  []dnsname.FQDN{"ts.net."},
 			},
 			fileContents: map[string]string{
-				"ts.net":           macResolverFileHeader + "nameserver 100.100.100.100\n",
+				"ts.net":           macResolverFileHeader + "nameserver 192.0.2.53\n",
 				"search.tailscale": macResolverFileHeader + "search tail1234.ts.net\n",
 			},
 		},
@@ -126,7 +126,7 @@ func TestSetDNS_PathTraversal(t *testing.T) {
 
 	for _, traversal := range traversals {
 		cfg := OSConfig{
-			Nameservers:  []netip.Addr{netip.MustParseAddr("100.100.100.100")},
+			Nameservers:  []netip.Addr{netip.MustParseAddr("192.0.2.53")},
 			MatchDomains: []dnsname.FQDN{traversal},
 		}
 
@@ -147,7 +147,7 @@ func TestRemoveResolverFiles(t *testing.T) {
 
 	// Write a tailscale-managed file.
 	managed := filepath.Join(c.resolverDir, "ts.net")
-	if err := os.WriteFile(managed, []byte(macResolverFileHeader+"nameserver 100.100.100.100\n"), 0644); err != nil {
+	if err := os.WriteFile(managed, []byte(macResolverFileHeader+"nameserver 192.0.2.53\n"), 0644); err != nil {
 		t.Fatal(err)
 	}
 

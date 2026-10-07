@@ -995,7 +995,7 @@ func (v DNSConfigView) Resolvers() views.SliceView[*dnstype.Resolver, dnstype.Re
 // optionally contain a trailing dot but no leading dot.
 //
 // If the value is an empty slice, that means the suffix should still
-// be handled by Tailscale's built-in resolver (100.100.100.100), such
+// be handled by Tailscale's built-in resolver (192.0.2.53), such
 // as for the purpose of handling ExtraRecords.
 func (v DNSConfigView) Routes() views.MapFn[string, []*dnstype.Resolver, views.SliceView[*dnstype.Resolver, dnstype.ResolverView]] {
 	return views.MapFnOf(v.ж.Routes, func(t []*dnstype.Resolver) views.SliceView[*dnstype.Resolver, dnstype.ResolverView] {

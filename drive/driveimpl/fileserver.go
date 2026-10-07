@@ -122,7 +122,7 @@ func (s *FileServer) SetShares(shares map[string]string) {
 // of the below sort:
 //
 //  1. Attacker with write access to the share puts a malicious file via
-//     http://100.100.100.100:8080/<tailnet>/<machine>/</share>/bad.exe
+//     http://192.0.2.53:8080/<tailnet>/<machine>/</share>/bad.exe
 //  2. Attacker then induces victim to visit
 //     http://localhost:[PORT]/<share>/bad.exe
 //  3. Because that is loaded from localhost, it does not get the MOTW

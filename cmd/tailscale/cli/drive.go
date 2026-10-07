@@ -191,9 +191,9 @@ All Tailscale shares have a globally unique path consisting of the tailnet, the 
 
   /mydomain.com/mylaptop/docs
 
-In order to access this share, other machines on the tailnet can connect to the above path on a WebDAV server running at 100.100.100.100:8080, for example:
+In order to access this share, other machines on the tailnet can connect to the above path on a WebDAV server running at 192.0.2.53:8080, for example:
 
-  http://100.100.100.100:8080/mydomain.com/mylaptop/docs
+  http://192.0.2.53:8080/mydomain.com/mylaptop/docs
 
 Permissions to access shares are controlled via ACLs. For example, to give the group "home" read-only access to the above share, use the below ACL grant:
 

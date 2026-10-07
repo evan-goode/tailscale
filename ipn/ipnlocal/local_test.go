@@ -4125,7 +4125,7 @@ func TestTCPHandlerForDst(t *testing.T) {
 		{
 			name:      "100_100_100_100-port80",
 			desc:      "intercept port 80 (Web UI) on quad100 IPv4",
-			dst:       "100.100.100.100:80",
+			dst:       "192.0.2.53:80",
 			intercept: true,
 		},
 		{
@@ -4155,7 +4155,7 @@ func TestTCPHandlerForDst(t *testing.T) {
 		{
 			name:      "100_100_100_100-port9080",
 			desc:      "don't intercept port 9080 on quad100 IPv4",
-			dst:       "100.100.100.100:9080",
+			dst:       "192.0.2.53:9080",
 			intercept: false,
 		},
 		{
@@ -4279,7 +4279,7 @@ func TestTCPHandlerForDstWithVIPService(t *testing.T) {
 		{
 			name:      "100_100_100_100-port80",
 			desc:      "intercept port 80 (Web UI) on quad100 IPv4",
-			dst:       "100.100.100.100:80",
+			dst:       "192.0.2.53:80",
 			intercept: true,
 		},
 		{
@@ -4297,7 +4297,7 @@ func TestTCPHandlerForDstWithVIPService(t *testing.T) {
 		{
 			name:      "100_100_100_100-port8080",
 			desc:      "intercept port 8080 (Taildrive) on quad100 IPv4",
-			dst:       "100.100.100.100:8080",
+			dst:       "192.0.2.53:8080",
 			intercept: true,
 		},
 		{
@@ -4315,7 +4315,7 @@ func TestTCPHandlerForDstWithVIPService(t *testing.T) {
 		{
 			name:      "100_100_100_100-port9080",
 			desc:      "don't intercept port 9080 on quad100 IPv4",
-			dst:       "100.100.100.100:9080",
+			dst:       "192.0.2.53:9080",
 			intercept: false,
 		},
 		{

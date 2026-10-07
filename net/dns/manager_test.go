@@ -225,7 +225,7 @@ func TestManager(t *testing.T) {
 		{
 			// If Hosts are specified (i.e. ExtraRecords) that aren't a split
 			// DNS route and a global resolver is specified, then make
-			// everything go via 100.100.100.100.
+			// everything go via 192.0.2.53.
 			name:  "hosts-with-global-dns-uses-quad100",
 			split: true,
 			in: Config{
@@ -247,7 +247,7 @@ func TestManager(t *testing.T) {
 		{
 			// This is the above hosts-with-global-dns-uses-quad100 test but
 			// verifying that if global DNS servers aren't set (the 1.1.1.1 and
-			// 9.9.9.9 above), then we don't configure 100.100.100.100 as the
+			// 9.9.9.9 above), then we don't configure 192.0.2.53 as the
 			// resolver.
 			name:  "hosts-without-global-dns-not-use-quad100",
 			split: true,
@@ -265,7 +265,7 @@ func TestManager(t *testing.T) {
 		},
 		{
 			// This tests that ExtraRecords (foo.tld and bar.tld here) don't trigger forcing
-			// traffic through 100.100.100.100 if there's Split DNS support and the extra
+			// traffic through 192.0.2.53 if there's Split DNS support and the extra
 			// records are part of a split DNS route.
 			name:  "hosts-with-extrarecord-hosts-with-routes-no-quad100",
 			split: true,
@@ -406,7 +406,7 @@ func TestManager(t *testing.T) {
 				return k
 			})(),
 			os: OSConfig{
-				Nameservers:   mustIPs("100.100.100.100"), // without IPv6
+				Nameservers:   mustIPs("192.0.2.53"), // without IPv6
 				SearchDomains: fqdns("tailscale.com", "universe.tf"),
 			},
 			rs: resolver.Config{

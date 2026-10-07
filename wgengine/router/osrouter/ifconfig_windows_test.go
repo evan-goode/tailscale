@@ -184,7 +184,7 @@ func TestFilterRoutes(t *testing.T) {
 		// Some random other route.
 		{RouteData: W{ipnet4("192.168.2.23", 32), h0, 1}},
 		// Our own tailscale address.
-		{RouteData: W{ipnet4("100.100.100.100", 32), h0, 1}},
+		{RouteData: W{ipnet4("192.0.2.53", 32), h0, 1}},
 		// Other tailscale addresses.
 		{RouteData: W{ipnet4("100.100.100.101", 32), h0, 1}},
 		{RouteData: W{ipnet4("100.100.100.102", 32), h0, 1}},
@@ -199,7 +199,7 @@ func TestFilterRoutes(t *testing.T) {
 		{RouteData: W{ipnet4("100.100.100.102", 32), h0, 1}},
 	}
 
-	got := filterRoutes(in, mustCIDRs("100.100.100.100/32"))
+	got := filterRoutes(in, mustCIDRs("192.0.2.53/32"))
 	if !equalRouteDatas(got, want) {
 		t.Errorf("\ngot:  %v\n  want: %v\n", formatRouteData(got), formatRouteData(want))
 	}

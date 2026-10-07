@@ -29,7 +29,7 @@ var dnsQueryCmd = &ffcli.Command{
 	ShortHelp:  "Perform a DNS query",
 	LongHelp: strings.TrimSpace(`
 The 'tailscale dns query' subcommand performs a DNS query for the specified name
-using the internal DNS forwarder (100.100.100.100).
+using the internal DNS forwarder (192.0.2.53).
 
 By default, the DNS query will request an A record. Specify the record type as
 a second argument after the name (e.g. AAAA, CNAME, MX, NS, PTR, SRV, TXT).

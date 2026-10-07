@@ -25,12 +25,12 @@ func TestNetNDBBytesWithoutTailscale(t *testing.T) {
 		},
 		{
 			name: "remove-by-comments",
-			raw:  "# This is a comment\n#tailscaled-added-line: dns=100.100.100.100\nip=10.0.2.15 ipmask=255.255.255.0 ipgw=10.0.2.2\n\tdns=100.100.100.100\n\tsys=gnot\n",
+			raw:  "# This is a comment\n#tailscaled-added-line: dns=192.0.2.53\nip=10.0.2.15 ipmask=255.255.255.0 ipgw=10.0.2.2\n\tdns=192.0.2.53\n\tsys=gnot\n",
 			want: "# This is a comment\nip=10.0.2.15 ipmask=255.255.255.0 ipgw=10.0.2.2\n\tsys=gnot\n",
 		},
 		{
 			name: "remove-by-ts.net",
-			raw:  "Some line\n\tdns=100.100.100.100 suffix=foo.ts.net\n\tfoo=bar\n",
+			raw:  "Some line\n\tdns=192.0.2.53 suffix=foo.ts.net\n\tfoo=bar\n",
 			want: "Some line\n\tfoo=bar\n",
 		},
 	}
@@ -60,14 +60,14 @@ func TestSetNDBSuffix(t *testing.T) {
 		},
 		{
 			name: "set",
-			raw:  "ip=10.0.2.15 ipmask=255.255.255.0 ipgw=10.0.2.2\n\tsys=gnot\n\tdns=100.100.100.100\n\n# foo\n",
-			want: `#tailscaled-added-line: dns=100.100.100.100 suffix=foo.ts.net
+			raw:  "ip=10.0.2.15 ipmask=255.255.255.0 ipgw=10.0.2.2\n\tsys=gnot\n\tdns=192.0.2.53\n\n# foo\n",
+			want: `#tailscaled-added-line: dns=192.0.2.53 suffix=foo.ts.net
 #tailscaled-added-line: dnsdomain=foo.ts.net
 
 ip=10.0.2.15 ipmask=255.255.255.0 ipgw=10.0.2.2
 	sys=gnot
-	dns=100.100.100.100
-	dns=100.100.100.100 suffix=foo.ts.net
+	dns=192.0.2.53
+	dns=192.0.2.53 suffix=foo.ts.net
 	dnsdomain=foo.ts.net
 
 # foo

@@ -244,7 +244,7 @@ type Config struct {
 	SetSubsystem func(any)
 
 	// DriveForLocal, if populated, will cause the engine to expose a Taildrive
-	// listener at 100.100.100.100:8080.
+	// listener at 192.0.2.53:8080.
 	DriveForLocal drive.FileSystemForLocal
 
 	// EventBus, if non-nil, is used for event publication and subscription by

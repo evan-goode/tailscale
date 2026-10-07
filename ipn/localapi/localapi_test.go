@@ -65,7 +65,7 @@ func TestValidHost(t *testing.T) {
 		{"localhost:9109", false},
 		{"127.0.0.1:9110", false},
 		{"[::1]:9111", false},
-		{"100.100.100.100:41112", false},
+		{"192.0.2.53:41112", false},
 		{"10.0.0.1:41112", false},
 		{"37.16.9.210:41112", false},
 	}

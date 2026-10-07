@@ -62,12 +62,12 @@ func TestUserDialPlan(t *testing.T) {
 		},
 		{
 			name: "netstack_for_ip",
-			addr: "100.100.100.100:53",
+			addr: "192.0.2.53:53",
 			useNetstackFor: func(ip netip.Addr) bool {
-				return ip == netip.MustParseAddr("100.100.100.100")
+				return ip == netip.MustParseAddr("192.0.2.53")
 			},
 			wantVia:  true,
-			wantAddr: netip.MustParseAddrPort("100.100.100.100:53"),
+			wantAddr: netip.MustParseAddrPort("192.0.2.53:53"),
 		},
 	}
 	for _, tt := range tests {

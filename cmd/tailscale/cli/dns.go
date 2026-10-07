@@ -14,7 +14,7 @@ var dnsCmd = &ffcli.Command{
 	ShortHelp: "Diagnose the internal DNS forwarder",
 	LongHelp: strings.TrimSpace(`
 The 'tailscale dns' subcommand provides tools for diagnosing the internal DNS
-forwarder (100.100.100.100).
+forwarder (192.0.2.53).
 
 For more information about the DNS functionality built into Tailscale, refer to
 https://tailscale.com/kb/1054/dns.

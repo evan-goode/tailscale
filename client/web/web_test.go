@@ -1184,7 +1184,7 @@ func TestRequireTailscaleIP(t *testing.T) {
 		},
 		{
 			name:        "quad-100",
-			target:      "http://100.100.100.100/",
+			target:      "http://192.0.2.53/",
 			wantHandled: false,
 		},
 		{
@@ -1194,7 +1194,7 @@ func TestRequireTailscaleIP(t *testing.T) {
 		},
 		{
 			name:        "quad-100:80",
-			target:      "http://100.100.100.100:80/",
+			target:      "http://192.0.2.53:80/",
 			wantHandled: false,
 		},
 		{

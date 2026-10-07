@@ -270,7 +270,7 @@ func (t *tapDevice) handleDHCPRequest(ethBuf []byte) bool {
 		pkt := packLayer2UDP(
 			offer.ToBytes(),
 			ourMAC, ethSrcMAC,
-			netip.AddrPortFrom(netaddr.IPv4(100, 100, 100, 100), 67), // src
+			netip.AddrPortFrom(netaddr.IPv4(192, 0, 2, 53), 67), // src
 			netip.AddrPortFrom(netaddr.IPv4(255, 255, 255, 255), 68), // dst
 		)
 
@@ -303,7 +303,7 @@ func (t *tapDevice) handleDHCPRequest(ethBuf []byte) bool {
 		pkt := packLayer2UDP(
 			ack.ToBytes(),
 			ourMAC, ethSrcMAC,
-			netip.AddrPortFrom(netaddr.IPv4(100, 100, 100, 100), 67), // src
+			netip.AddrPortFrom(netaddr.IPv4(192, 0, 2, 53), 67), // src
 			netip.AddrPortFrom(netaddr.IPv4(255, 255, 255, 255), 68), // dst
 		)
 		n, err := t.WriteEthernet(pkt)

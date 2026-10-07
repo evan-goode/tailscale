@@ -460,7 +460,7 @@ func TestShouldProcessInbound(t *testing.T) {
 				IPVersion: 4,
 				IPProto:   ipproto.UDP,
 				Src:       netip.MustParseAddrPort("100.101.102.103:1234"),
-				Dst:       netip.MustParseAddrPort("100.100.100.100:8080"),
+				Dst:       netip.MustParseAddrPort("192.0.2.53:8080"),
 			},
 			beforeStart: func(i *Impl) {
 				i.ProcessLocalIPs = false
@@ -507,7 +507,7 @@ func TestShouldProcessInbound(t *testing.T) {
 				IPVersion: 4,
 				IPProto:   ipproto.UDP,
 				Src:       netip.MustParseAddrPort("100.101.102.103:1234"),
-				Dst:       netip.MustParseAddrPort("100.100.100.100:9999"),
+				Dst:       netip.MustParseAddrPort("192.0.2.53:9999"),
 			},
 			beforeStart: func(i *Impl) {
 				i.ProcessLocalIPs = false
@@ -603,7 +603,7 @@ func TestShouldProcessInbound(t *testing.T) {
 				IPVersion: 4,
 				IPProto:   ipproto.TCP,
 				Src:       netip.MustParseAddrPort("100.101.102.103:1234"),
-				Dst:       netip.MustParseAddrPort("100.100.100.100:8080"), // serviceIP
+				Dst:       netip.MustParseAddrPort("192.0.2.53:8080"), // serviceIP
 				TCPFlags:  packet.TCPSyn,
 			},
 			beforeStart: func(i *Impl) {
@@ -958,7 +958,7 @@ func TestHandleLocalPackets(t *testing.T) {
 			IPVersion: 4,
 			IPProto:   ipproto.TCP,
 			Src:       netip.MustParseAddrPort("127.0.0.1:9999"),
-			Dst:       netip.MustParseAddrPort("100.100.100.100:53"),
+			Dst:       netip.MustParseAddrPort("192.0.2.53:53"),
 			TCPFlags:  packet.TCPSyn,
 		}
 		resp, _ := impl.handleLocalPackets(pkt, impl.tundev, nil)
@@ -970,7 +970,7 @@ func TestHandleLocalPackets(t *testing.T) {
 	// netstack and never leak out to the WireGuard / peer-routing
 	// layers. Historically we only intercepted specific ports (UDP 53
 	// and TCP 53/80/8080), causing stray traffic to other ports such
-	// as 100.100.100.100:853 (DoT) to time out in wireguard-go and
+	// as 192.0.2.53:853 (DoT) to time out in wireguard-go and
 	// produce "open-conn-track: timeout opening ...; no associated
 	// peer node" log spam. See the handleLocalPackets comment.
 	quad100LeakCases := []struct {
@@ -978,11 +978,11 @@ func TestHandleLocalPackets(t *testing.T) {
 		proto ipproto.Proto
 		dst   string
 	}{
-		{"TCP-853-DoT-v4", ipproto.TCP, "100.100.100.100:853"},
-		{"TCP-443-DoH-v4", ipproto.TCP, "100.100.100.100:443"},
-		{"TCP-9000-stray-v4", ipproto.TCP, "100.100.100.100:9000"},
-		{"UDP-853-DoQ-v4", ipproto.UDP, "100.100.100.100:853"},
-		{"UDP-443-v4", ipproto.UDP, "100.100.100.100:443"},
+		{"TCP-853-DoT-v4", ipproto.TCP, "192.0.2.53:853"},
+		{"TCP-443-DoH-v4", ipproto.TCP, "192.0.2.53:443"},
+		{"TCP-9000-stray-v4", ipproto.TCP, "192.0.2.53:9000"},
+		{"UDP-853-DoQ-v4", ipproto.UDP, "192.0.2.53:853"},
+		{"UDP-443-v4", ipproto.UDP, "192.0.2.53:443"},
 		{"TCP-853-DoT-v6", ipproto.TCP, "[fd7a:115c:a1e0::53]:853"},
 		{"UDP-443-v6", ipproto.UDP, "[fd7a:115c:a1e0::53]:443"},
 	}
@@ -1022,7 +1022,7 @@ func TestHandleLocalPackets(t *testing.T) {
 		t.Parallel()
 		protos := []ipproto.Proto{ipproto.TCP, ipproto.UDP}
 		dsts := []netip.Addr{
-			netip.MustParseAddr("100.100.100.100"),
+			netip.MustParseAddr("192.0.2.53"),
 			netip.MustParseAddr("fd7a:115c:a1e0::53"),
 		}
 		for _, proto := range protos {
@@ -1114,7 +1114,7 @@ func TestHandleLocalPackets(t *testing.T) {
 }
 
 // TestQuad100UnservedTCPPortDoesNotForward verifies that a TCP SYN to the
-// Tailscale service IP (100.100.100.100) on a port we don't serve is
+// Tailscale service IP (192.0.2.53) on a port we don't serve is
 // absorbed by netstack and rejected cleanly, without triggering the
 // outbound forwardTCP dialer.
 //
@@ -1147,7 +1147,7 @@ func TestQuad100UnservedTCPPortDoesNotForward(t *testing.T) {
 	quad100 := tsaddr.TailscaleServiceIP()
 
 	// 853 is DoT, the specific case called out in the original bug
-	// report ("conntrack error no peer found for 100.100.100.100:853").
+	// report ("conntrack error no peer found for 192.0.2.53:853").
 	// Before the fix, port 853 (and any non-{53,80,8080} port) leaked
 	// out to WireGuard; after the fix it is absorbed here and must NOT
 	// trigger forwardTCP.

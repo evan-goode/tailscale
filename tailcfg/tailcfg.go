@@ -87,7 +87,7 @@ type CapabilityVersion int
 //   - 38: 2022-08-11: added PingRequest.URLIsNoise
 //   - 39: 2022-08-15: clients can talk Noise over arbitrary HTTPS port
 //   - 40: 2022-08-22: added Node.KeySignature, PeersChangedPatch.KeySignature
-//   - 41: 2022-08-30: uses 100.100.100.100 for route-less ExtraRecords if global nameservers is set
+//   - 41: 2022-08-30: uses 192.0.2.53 for route-less ExtraRecords if global nameservers is set
 //   - 42: 2022-09-06: NextDNS DoH support; see https://github.com/tailscale/tailscale/pull/5556
 //   - 43: 2022-09-21: clients can return usernames for SSH
 //   - 44: 2022-09-22: MapResponse.ControlDialPlan
@@ -1759,7 +1759,7 @@ type DNSConfig struct {
 	// optionally contain a trailing dot but no leading dot.
 	//
 	// If the value is an empty slice, that means the suffix should still
-	// be handled by Tailscale's built-in resolver (100.100.100.100), such
+	// be handled by Tailscale's built-in resolver (192.0.2.53), such
 	// as for the purpose of handling ExtraRecords.
 	Routes map[string][]*dnstype.Resolver `json:",omitempty"`
 

@@ -1216,6 +1216,87 @@ func createRangeRule(
 
 }
 
+// createIfaceReturnCGNATRule creates a rule that matches packets arriving on
+// the named interface with source IP in the CGNAT range and returns (skips the
+// rest of the chain). Only IPv4 is supported.
+func createIfaceReturnCGNATRule(
+	table *nftables.Table, chain *nftables.Chain,
+	ifname string,
+) (*nftables.Rule, error) {
+	rng := tsaddr.CGNATRange()
+	saddrExpr, err := newLoadSaddrExpr(nftables.TableFamilyIPv4, 1)
+	if err != nil {
+		return nil, fmt.Errorf("newLoadSaddrExpr: %w", err)
+	}
+	netip := rng.Addr().AsSlice()
+	mask := maskof(rng)
+	rule := &nftables.Rule{
+		Table: table,
+		Chain: chain,
+		Exprs: []expr.Any{
+			&expr.Meta{Key: expr.MetaKeyIIFNAME, Register: 1},
+			&expr.Cmp{
+				Op:       expr.CmpOpEq,
+				Register: 1,
+				Data:     []byte(ifname),
+			},
+			saddrExpr,
+			&expr.Bitwise{
+				SourceRegister: 1,
+				DestRegister:   1,
+				Len:            4,
+				Mask:           mask,
+				Xor:            []byte{0x00, 0x00, 0x00, 0x00},
+			},
+			&expr.Cmp{
+				Op:       expr.CmpOpEq,
+				Register: 1,
+				Data:     netip,
+			},
+			&expr.Counter{},
+			&expr.Verdict{
+				Kind: expr.VerdictReturn,
+			},
+		},
+	}
+	return rule, nil
+}
+
+// addReturnIfaceCGNATRule adds a rule to return if the packet arrives on the
+// named interface and the source IP is in the CGNAT range.
+func addReturnIfaceCGNATRule(c *nftables.Conn, table *nftables.Table, chain *nftables.Chain, ifname string) error {
+	rule, err := createIfaceReturnCGNATRule(table, chain, ifname)
+	if err != nil {
+		return fmt.Errorf("create rule: %w", err)
+	}
+	_ = c.AddRule(rule)
+	if err = c.Flush(); err != nil {
+		return fmt.Errorf("add rule: %w", err)
+	}
+	return nil
+}
+
+// delReturnIfaceCGNATRule deletes the rule created by addReturnIfaceCGNATRule
+// for the given interface, if it exists.
+func delReturnIfaceCGNATRule(c *nftables.Conn, table *nftables.Table, chain *nftables.Chain, ifname string) error {
+	rule, err := createIfaceReturnCGNATRule(table, chain, ifname)
+	if err != nil {
+		return fmt.Errorf("create rule: %w", err)
+	}
+	rule, err = findRule(c, rule)
+	if err != nil {
+		return fmt.Errorf("find rule: %v", err)
+	}
+	if rule == nil {
+		return nil
+	}
+	_ = c.DelRule(rule)
+	if err := c.Flush(); err != nil {
+		return fmt.Errorf("flush del rule: %w", err)
+	}
+	return nil
+}
+
 // addReturnChromeOSVMRangeRule adds a rule to return if the source IP
 // is in the ChromeOS VM range.
 func addReturnChromeOSVMRangeRule(c *nftables.Conn, table *nftables.Table, chain *nftables.Chain, tunname string) error {
@@ -1603,6 +1684,11 @@ func (n *nftablesRunner) AddExternalCGNATRules(mode CGNATMode, tunname string) e
 		if err = addReturnChromeOSVMRangeRule(conn, n.nft4.Filter, inputChain, tunname); err != nil {
 			return fmt.Errorf("add return chromeos vm range rule v4: %w", err)
 		}
+		for _, ifname := range cgnatExemptInterfaces {
+			if err = addReturnIfaceCGNATRule(conn, n.nft4.Filter, inputChain, ifname); err != nil {
+				return fmt.Errorf("add return %s cgnat range rule v4: %w", ifname, err)
+			}
+		}
 		if err = addDropCGNATRangeRule(conn, n.nft4.Filter, inputChain, tunname); err != nil {
 			return fmt.Errorf("add drop cgnat range rule v4: %w", err)
 		}
@@ -1632,6 +1718,11 @@ func (n *nftablesRunner) DelExternalCGNATRules(mode CGNATMode, tunname string) e
 	case CGNATModeDrop:
 		if err = delReturnChromeOSVMRangeRule(conn, n.nft4.Filter, inputChain, tunname); err != nil {
 			return fmt.Errorf("del return chromeos vm range rule v4: %w", err)
+		}
+		for _, ifname := range cgnatExemptInterfaces {
+			if err = delReturnIfaceCGNATRule(conn, n.nft4.Filter, inputChain, ifname); err != nil {
+				return fmt.Errorf("del return %s cgnat range rule v4: %w", ifname, err)
+			}
 		}
 		if err = delDropCGNATRangeRule(conn, n.nft4.Filter, inputChain, tunname); err != nil {
 			return fmt.Errorf("del drop cgnat range rule v4: %w", err)

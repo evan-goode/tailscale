@@ -787,6 +787,13 @@ func findCGNATRules(
 			return fmt.Errorf("create rule: %w", err)
 		}
 		want = append(want, rule)
+		for _, ifname := range cgnatExemptInterfaces {
+			rule, err = createIfaceReturnCGNATRule(inpChain.Table, inpChain, ifname)
+			if err != nil {
+				return fmt.Errorf("create %s rule: %w", ifname, err)
+			}
+			want = append(want, rule)
+		}
 		rule, err = createRangeRule(inpChain.Table, inpChain, tunname, tsaddr.CGNATRange(), expr.VerdictDrop)
 		if err != nil {
 			return fmt.Errorf("create rule: %w", err)
@@ -838,7 +845,7 @@ func TestNFTAddAndDelCGNATRules(t *testing.T) {
 
 			switch mode {
 			case CGNATModeDrop:
-				checkChainRules(t, conn, inputV4, 2)
+				checkChainRules(t, conn, inputV4, 1+len(cgnatExemptInterfaces)+1)
 			case CGNATModeReturn:
 				checkChainRules(t, conn, inputV4, 1)
 			default:

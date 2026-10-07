@@ -123,6 +123,8 @@ v4/filter/ts-forward -o tailscale0 -m conntrack ! --ctstate ESTABLISHED,RELATED 
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -163,6 +165,8 @@ v4/filter/ts-forward -o tailscale0 -s 100.64.0.0/10 -j DROP
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -199,6 +203,8 @@ v4/filter/ts-forward -o tailscale0 -s 100.64.0.0/10 -j DROP
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -236,6 +242,8 @@ v4/filter/ts-forward -o tailscale0 -s 100.64.0.0/10 -j DROP
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -270,6 +278,8 @@ v4/filter/ts-forward -o tailscale0 -s 100.64.0.0/10 -j DROP
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -303,6 +313,8 @@ v4/filter/ts-forward -o tailscale0 -s 100.64.0.0/10 -j DROP
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v6/filter/ts-forward -i tailscale0 -j MARK --set-mark 0x40000/0xff0000
 v6/filter/ts-forward -m mark --mark 0x40000/0xff0000 -j ACCEPT
@@ -329,6 +341,8 @@ v4/filter/ts-forward -o tailscale0 -s 100.64.0.0/10 -j DROP
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -365,6 +379,8 @@ v4/filter/ts-forward -o tailscale0 -s 100.64.0.0/10 -j DROP
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -416,6 +432,8 @@ v4/filter/ts-forward -o tailscale0 -s 100.64.0.0/10 -j DROP
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -453,6 +471,8 @@ v4/filter/ts-forward -o tailscale0 -s 100.64.0.0/10 -j DROP
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -492,6 +512,8 @@ v4/filter/ts-forward -o tailscale0 -m conntrack ! --ctstate ESTABLISHED,RELATED 
 v4/filter/ts-forward -o tailscale0 -j ACCEPT
 v4/filter/ts-input -i lo -s 100.101.102.104 -j ACCEPT
 v4/filter/ts-input ! -i tailscale0 -s 100.115.92.0/23 -j RETURN
+v4/filter/ts-input -i lo -s 100.64.0.0/10 -j RETURN
+v4/filter/ts-input -i wt0 -s 100.64.0.0/10 -j RETURN
 v4/filter/ts-input ! -i tailscale0 -s 100.64.0.0/10 -j DROP
 v4/mangle/OUTPUT -m conntrack --ctstate NEW -m mark ! --mark 0x0/0xff0000 -j CONNMARK --save-mark --nfmask 0xff0000 --ctmask 0xff0000
 v4/mangle/PREROUTING -m conntrack --ctstate ESTABLISHED,RELATED -j CONNMARK --restore-mark --nfmask 0xff0000 --ctmask 0xff0000
@@ -964,10 +986,14 @@ func (n *fakeIPTablesRunner) DelConnmarkSaveRule() error {
 func buildExternalCGNATRules(mode linuxfw.CGNATMode, tunname string) ([]iptRule, error) {
 	switch mode {
 	case linuxfw.CGNATModeDrop:
-		return []iptRule{
+		rules := []iptRule{
 			{"filter/ts-input", fmt.Sprintf("! -i %s -s %s -j RETURN", tunname, tsaddr.ChromeOSVMRange().String())},
-			{"filter/ts-input", fmt.Sprintf("! -i %s -s %s -j DROP", tunname, tsaddr.CGNATRange().String())},
-		}, nil
+		}
+		for _, ifname := range linuxfw.CgnatExemptInterfaces() {
+			rules = append(rules, iptRule{"filter/ts-input", fmt.Sprintf("-i %s -s %s -j RETURN", ifname, tsaddr.CGNATRange().String())})
+		}
+		rules = append(rules, iptRule{"filter/ts-input", fmt.Sprintf("! -i %s -s %s -j DROP", tunname, tsaddr.CGNATRange().String())})
+		return rules, nil
 	case linuxfw.CGNATModeReturn:
 		return []iptRule{
 			{"filter/ts-input", fmt.Sprintf("! -i %s -s %s -j RETURN", tunname, tsaddr.CGNATRange().String())},

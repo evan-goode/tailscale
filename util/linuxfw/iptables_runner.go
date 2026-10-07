@@ -676,10 +676,17 @@ func buildExternalCGNATRules(mode CGNATMode, tunname string) ([][]string, error)
 		// Only allow CGNAT range traffic to come from the Tailscale interface.
 		// There is an exception carved out for ranges used by ChromeOS, for
 		// which we fall out of the Tailscale chain.
-		return [][]string{
+		// Traffic from cgnatExemptInterfaces is also exempted, since it may
+		// originate from other software using the CGNAT range locally (e.g.
+		// Netbird).
+		rules := [][]string{
 			{"!", "-i", tunname, "-s", tsaddr.ChromeOSVMRange().String(), "-j", "RETURN"},
-			{"!", "-i", tunname, "-s", tsaddr.CGNATRange().String(), "-j", "DROP"},
-		}, nil
+		}
+		for _, ifname := range cgnatExemptInterfaces {
+			rules = append(rules, []string{"-i", ifname, "-s", tsaddr.CGNATRange().String(), "-j", "RETURN"})
+		}
+		rules = append(rules, []string{"!", "-i", tunname, "-s", tsaddr.CGNATRange().String(), "-j", "DROP"})
+		return rules, nil
 	case CGNATModeReturn:
 		// Fall out of the Tailscale chain for CGNAT traffic that doesn't
 		// originate from the Tailscale interface.

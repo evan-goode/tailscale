@@ -60,6 +60,18 @@ const (
 	CGNATModeReturn CGNATMode = "RETURN"
 )
 
+// cgnatExemptInterfaces is the list of interfaces whose CGNAT-range
+// traffic should be exempted from Tailscale's CGNAT drop rule.
+// Loopback is exempted because locally-originated traffic to CGNAT
+// addresses (e.g. DNS queries to a Netbird resolver) arrives via lo.
+// wt0 is the default Netbird WireGuard interface; its peer traffic
+// uses CGNAT-range source IPs and must not be dropped.
+var cgnatExemptInterfaces = []string{"lo", "wt0"}
+
+// CgnatExemptInterfaces returns the list of interfaces exempted from
+// the CGNAT drop rule.
+func CgnatExemptInterfaces() []string { return cgnatExemptInterfaces }
+
 // The following bits are added to packet marks for Tailscale use.
 //
 // We tried to pick bits sufficiently out of the way that it's

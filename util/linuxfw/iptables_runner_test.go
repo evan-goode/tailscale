@@ -517,10 +517,16 @@ func TestAddAndDelCGNATRules(t *testing.T) {
 		wantRules []fakeRule
 	}{
 		{
-			CGNATModeDrop, []fakeRule{
-				{"filter", "ts-input", []string{"!", "-i", tunname, "-s", tsaddr.ChromeOSVMRange().String(), "-j", "RETURN"}},
-				{"filter", "ts-input", []string{"!", "-i", tunname, "-s", tsaddr.CGNATRange().String(), "-j", "DROP"}},
-			},
+			CGNATModeDrop, func() []fakeRule {
+				rules := []fakeRule{
+					{"filter", "ts-input", []string{"!", "-i", tunname, "-s", tsaddr.ChromeOSVMRange().String(), "-j", "RETURN"}},
+				}
+				for _, ifname := range cgnatExemptInterfaces {
+					rules = append(rules, fakeRule{"filter", "ts-input", []string{"-i", ifname, "-s", tsaddr.CGNATRange().String(), "-j", "RETURN"}})
+				}
+				rules = append(rules, fakeRule{"filter", "ts-input", []string{"!", "-i", tunname, "-s", tsaddr.CGNATRange().String(), "-j", "DROP"}})
+				return rules
+			}(),
 		},
 		{
 			CGNATModeReturn, []fakeRule{
